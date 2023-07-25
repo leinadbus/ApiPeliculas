@@ -83,7 +83,7 @@ namespace ApiPeliculas.Controllers
             var categoria = _mapper.Map<Categoria>(crearCategoriaDto);
             if (!_ctRepo.CrearCategoria(categoria))
             {
-                ModelState.AddModelError("", $"Agl salió mal guardando el registro {categoria.Nombre}");
+                ModelState.AddModelError("", $"Alfo salió mal guardando el registro {categoria.Nombre}");
                 return StatusCode(500, ModelState);
             }
 
@@ -108,7 +108,32 @@ namespace ApiPeliculas.Controllers
             var categoria = _mapper.Map<Categoria>(categoriaDto);
             if (!_ctRepo.ActualizarCategoria(categoria))
             {
-                ModelState.AddModelError("", $"Agl salió mal actualizando el registro {categoria.Nombre}");
+                ModelState.AddModelError("", $"Alfo salió mal actualizando el registro {categoria.Nombre}");
+                return StatusCode(500, ModelState);
+            }
+
+            return NoContent();
+        }
+
+        [HttpDelete("{categoriaId:int}", Name = "BorrarCategoria")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+
+        public IActionResult BorrarCategoria(int categoriaId)
+        {
+
+            if (!_ctRepo.ExisteCategoria(categoriaId))
+            {
+                return NotFound();
+            }
+
+            var categoria = _ctRepo.GetCategoria(categoriaId);
+
+            if (!_ctRepo.BorrarCategoria(categoria))
+            {
+                ModelState.AddModelError("", $"Algo salió mal borrando el registro {categoria.Nombre}");
                 return StatusCode(500, ModelState);
             }
 
