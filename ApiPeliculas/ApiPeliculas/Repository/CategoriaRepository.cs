@@ -16,41 +16,41 @@ namespace ApiPeliculas.Repository
         public bool ActualizarCategoria(Categoria categoria)
         {
             categoria.FechaCreacion = DateTime.Now;
-            _bd.Categoria.Update(categoria);
+            _bd.Categorias.Update(categoria);
             return Guardar();
         }
 
         public bool BorrarCategoria(Categoria categoria)
         {
-            _bd.Categoria.Remove(categoria);
+            _bd.Categorias.Remove(categoria);
             return Guardar();
         }
 
         public bool CrearCategoria(Categoria categoria)
         {
             categoria.FechaCreacion = DateTime.Now;
-            _bd.Categoria.Add(categoria);
+            _bd.Categorias.Add(categoria);
             return Guardar();
         }
 
         public bool ExisteCategoria(string nombreCategoria)
         {
-            return _bd.Categoria.Any(category => category.Nombre.ToLower().Trim() == nombreCategoria.ToLower().Trim());
+            return _bd.Categorias.Any(category => category.Nombre.ToLower().Trim() == nombreCategoria.ToLower().Trim());
         }
 
         public bool ExisteCategoria(int CategoriaId)
         {
-            return _bd.Categoria.Any(category => category.Id == CategoriaId);
+            return _bd.Categorias.Any(category => category.Id == CategoriaId);
         }
 
         public Categoria GetCategoria(int CategoriaId)
         {
-           return _bd.Categoria.FirstOrDefault(category => category.Id == CategoriaId);
+           return _bd.Categorias.FirstOrDefault(category => category.Id == CategoriaId);
         }
 
         public ICollection<Categoria> GetCategorias()
         {
-            return _bd.Categoria.OrderBy(category => category.Nombre).ToList();
+            return _bd.Categorias.OrderBy(category => category.Nombre).ToList();
         }
 
         public bool Guardar()
