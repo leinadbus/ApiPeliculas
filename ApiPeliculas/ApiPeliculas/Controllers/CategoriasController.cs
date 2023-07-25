@@ -1,4 +1,5 @@
-﻿using ApiPeliculas.Models.Dtos;
+﻿using ApiPeliculas.Models;
+using ApiPeliculas.Models.Dtos;
 using ApiPeliculas.Repository.IRepository;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -55,6 +56,39 @@ namespace ApiPeliculas.Controllers
             var itemCategoriaDto = _mapper.Map<CategoriaDto>(itemCategoria);
 
             return Ok(itemCategoriaDto);
+        }
+
+        [HttpPost]
+        [ProducesResponseType(201, Type = typeof(CategoriaDto))]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+
+        public IActionResult CrearCategoria([FromBody] CrearCategoriaDto crearCategoriaDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            if (crearCategoriaDto == null)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (_ctRepo.ExisteCategoria(crearCategoriaDto.Nombre))
+            {
+                ModelState.AddModelError("", "La categoría ya existe");
+                return StatusCode(404, ModelState);
+            }
+
+            var categoria = _mapper.Map<Categoria>(crearCategoriaDto);
+            if (!_ctRepo.CrearCategoria(categoria))
+            {
+                ModelState.AddModelError("", $"Agl salió mal guardando el registro {categoria.Nombre}");
+                return StatusCode(500, ModelState);
+            }
+
+            return CreatedAtRoute("GetCategoria", new { categoriaId =  categoria.Id}, categoria);
         }
     }
 }
