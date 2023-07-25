@@ -2,14 +2,11 @@
 
 namespace ApiPeliculas.Models.Dtos
 {
-    public class CategoriaDto
+    public class CrearCategoriaDto
     {
-        public int Id { get; set; }
-
+        //Esta validación es requerida para el nombre de la categoría
         [Required(ErrorMessage = "El nombre es obligatorio")]
         [MaxLength(100, ErrorMessage ="El máximo de caracterer es de 100!")]
         public string Nombre { get; set; }
-
-        public DateTime FechaCreacion { get; set; }
     }
 }
