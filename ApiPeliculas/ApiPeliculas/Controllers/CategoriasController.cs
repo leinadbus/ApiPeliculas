@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ApiPeliculas.Models.Dtos;
+using ApiPeliculas.Repository.IRepository;
+using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ApiPeliculas.Controllers
 {
@@ -8,9 +11,29 @@ namespace ApiPeliculas.Controllers
 
     public class CategoriasController : ControllerBase
     {
-        //public IActionResult Index()
-        //{
-        //    return View();
-        //}
+        private readonly ICategoriaRepository _ctRepo;
+        private readonly IMapper _mapper;
+
+        public CategoriasController(ICategoriaRepository ctRepo, IMapper mapper)
+        {
+            _ctRepo = ctRepo;
+            _mapper = mapper;
+        }
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+
+        public IActionResult GetCategorias() 
+        {
+            var listaCategorias = _ctRepo.GetCategorias();
+
+            var listaCategoriasDto = new List<CategoriaDto>();
+
+            foreach (var item in listaCategorias)
+            {
+                listaCategoriasDto.Add(_mapper.Map<CategoriaDto>(item));
+            }
+            return Ok(listaCategoriasDto);
+        }
     }
 }
