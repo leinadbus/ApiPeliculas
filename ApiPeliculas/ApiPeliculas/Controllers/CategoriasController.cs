@@ -63,7 +63,6 @@ namespace ApiPeliculas.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-
         public IActionResult CrearCategoria([FromBody] CrearCategoriaDto crearCategoriaDto)
         {
             if (!ModelState.IsValid)
@@ -89,6 +88,31 @@ namespace ApiPeliculas.Controllers
             }
 
             return CreatedAtRoute("GetCategoria", new { categoriaId =  categoria.Id}, categoria);
+        }
+
+        [HttpPatch("{categoriaId:int}", Name = "ActualizarPatchCategoria")]
+        [ProducesResponseType(201, Type = typeof(CategoriaDto))]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public IActionResult ActualizarPatchCategoria(int categoriaId, [FromBody] CategoriaDto categoriaDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            if (categoriaDto == null || categoriaId != categoriaDto.Id)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var categoria = _mapper.Map<Categoria>(categoriaDto);
+            if (!_ctRepo.ActualizarCategoria(categoria))
+            {
+                ModelState.AddModelError("", $"Agl salió mal actualizando el registro {categoria.Nombre}");
+                return StatusCode(500, ModelState);
+            }
+
+            return NoContent();
         }
     }
 }
