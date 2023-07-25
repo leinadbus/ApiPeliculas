@@ -4,6 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>d5030081-85b8-4115-9d2c-b5cf2156d574</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,7 +19,6 @@
 
   <ItemGroup>
     <Folder Include="Controllers\" />
-    <Folder Include="Data\" />
     <Folder Include="Models\Dtos\" />
     <Folder Include="PeliculasMapper\" />
     <Folder Include="Repository\IRepository\" />
