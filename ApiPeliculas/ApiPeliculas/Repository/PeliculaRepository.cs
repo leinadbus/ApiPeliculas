@@ -32,7 +32,7 @@ namespace ApiPeliculas.Repository
             IQueryable<Pelicula> query = _bd.Peliculas;
             if (!string.IsNullOrEmpty(nombre))
             {
-                query = query.Where(e => e.Nombre.Contains(nombre) || e.Descripcion.Contains(nombre);
+                query = query.Where(e => e.Nombre.Contains(nombre) || e.Descripcion.Contains(nombre));
             }
             return query.ToList();
         }
