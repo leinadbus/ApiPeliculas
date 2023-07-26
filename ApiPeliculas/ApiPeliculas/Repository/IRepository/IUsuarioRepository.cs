@@ -1,4 +1,5 @@
 ﻿using ApiPeliculas.Models;
+using ApiPeliculas.Models.Dtos;
 
 namespace ApiPeliculas.Repository.IRepository
 {
@@ -6,14 +7,10 @@ namespace ApiPeliculas.Repository.IRepository
     {
         ICollection<Usuario> GetUsuarios();
 
-        Categoria GetCategoria(int CategoriaId);
-        bool ExisteCategoria(string nombreCategoria);
-        bool ExisteCategoria(int CategoriaId);
-        bool CrearCategoria(Categoria categoria);
-        bool ActualizarCategoria(Categoria categoria);
-        bool BorrarCategoria(Categoria categoria);
-        bool Guardar();
-
+        Usuario GetUsuario(int usuarioId);
+        bool IsUniqueUser(string usuario);
+        Task<UsuarioLoginRespuestaDto> Login(UsuarioLoginDto usuarioLoginDto);
+        Task<Usuario> Registro(Usuarioregistrodto usuarioRegistroDto);
 
     }
 }
