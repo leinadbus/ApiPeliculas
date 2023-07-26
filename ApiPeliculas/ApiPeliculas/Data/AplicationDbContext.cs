@@ -12,6 +12,8 @@ namespace ApiPeliculas.Data
         //Aquí agregamos los modelos
         public DbSet<Categoria> Categorias { get; set; }
         public DbSet<Pelicula> Peliculas { get; set; }
+        public DbSet<Usuario> Usuarios { get; set; }
+
 
     }
 }
