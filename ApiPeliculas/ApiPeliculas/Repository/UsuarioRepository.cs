@@ -60,7 +60,7 @@ namespace ApiPeliculas.Repository
             return usuario;
         }
 
-        public Task<UsuarioLoginRespuestaDto> Login(UsuarioLoginDto usuarioLoginDto)
+        public async Task<UsuarioLoginRespuestaDto> Login(UsuarioLoginDto usuarioLoginDto)
         {
             var passwordEncriptado = obtenermd5(usuarioLoginDto.Password);
 
