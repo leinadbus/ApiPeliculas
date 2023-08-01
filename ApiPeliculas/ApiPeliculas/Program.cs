@@ -1,4 +1,5 @@
 using ApiPeliculas.Data;
+using ApiPeliculas.Models;
 using ApiPeliculas.PeliculasMapper;
 using ApiPeliculas.Repository;
 using ApiPeliculas.Repository.IRepository;
@@ -20,7 +21,7 @@ builder.Services.AddDbContext<AplicationDbContext>(options =>
 });
 
 //Soporte para autenticación con .NET Identity
-builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AplicationDbContext>();
+builder.Services.AddIdentity<AppUsuario, IdentityRole>().AddEntityFrameworkStores<AplicationDbContext>();
 
 //Añadimos caché
 builder.Services.AddResponseCaching();
@@ -63,6 +64,7 @@ builder.Services.AddControllers(option =>
     //Cahe profile. Caché Global
     option.CacheProfiles.Add("PorDefecto20Segundos", new CacheProfile() { Duration = 20 });
 });
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen( options =>
@@ -109,7 +111,19 @@ builder.Services.AddCors(p => p.AddPolicy("PolicyCors", build =>
     build.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
 }));
 
+
 var app = builder.Build();
+
+
+app.UseHttpsRedirection();
+
+//Soporte para CORS
+app.UseCors("PolicyCors");
+
+//Añadida autenticación
+app.UseAuthentication();
+
+app.UseAuthorization();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -118,15 +132,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-
-//Soporte para CORS
-app.UseCors("PolicyCors");
-//Añadida autenticación
-app.UseAuthentication();
-
-app.UseAuthorization();
+app.UseMiddleware<CustomHeaderMiddleware>();
 
 app.MapControllers();
+
 
 app.Run();
