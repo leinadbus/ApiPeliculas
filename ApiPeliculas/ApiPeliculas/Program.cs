@@ -26,7 +26,7 @@ builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddAutoMapper(typeof(PeliculasMapper));
 
 //Configración de autenticación
-var key = builder.Configuration.GetValue<string>("Secreta");
+var key = builder.Configuration.GetValue<string>("ApiSettings:Secreta");
 builder.Services.AddAuthentication(x =>
 {
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
