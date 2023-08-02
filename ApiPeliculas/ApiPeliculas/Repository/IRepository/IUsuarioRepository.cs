@@ -5,12 +5,13 @@ namespace ApiPeliculas.Repository.IRepository
 {
     public interface IUsuarioRepository
     {
-        ICollection<Usuario> GetUsuarios();
+        ICollection<AppUsuario> GetUsuarios();
 
-        Usuario GetUsuario(int usuarioId);
+        AppUsuario GetUsuario(string usuarioId);
         bool IsUniqueUser(string usuario);
         Task<UsuarioLoginRespuestaDto> Login(UsuarioLoginDto usuarioLoginDto);
-        Task<Usuario> Registro(Usuarioregistrodto usuarioRegistroDto);
+        Task<UsuarioDatosDto> Registro(Usuarioregistrodto usuarioRegistroDto);
+        //Task<UsuarioDatosDto> Login(Usuarioregistrodto usuarioRegistroDto);
 
     }
 }
